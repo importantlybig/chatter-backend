@@ -50,6 +50,7 @@ export class MessagesService {
   async getMessages({ chatId }: GetMessagesArgs) {
     return this.chatsRepository.model.aggregate([
       { $match: { _id: new Types.ObjectId(chatId) } },
+      // unpack each message like an for each loop array
       { $unwind: '$messages' },
       { $replaceRoot: { newRoot: '$messages' } },
       {
